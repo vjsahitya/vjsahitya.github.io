@@ -147,24 +147,83 @@ body{
 }
 .reveal.in{ opacity:1; transform:none; }
 
+/* pop-in decorative elements (per-section) */
+.pop{
+  opacity:0;
+  transform:scale(0.4);
+  transition:opacity .8s ease, transform .9s cubic-bezier(0.22,1.4,0.4,1);
+}
+.pop.in{ opacity:1; transform:scale(1); }
+
+/* ---------- butterflies ---------- */
+#butterfly-field{ position:fixed; inset:0; z-index:5; pointer-events:none; }
+.butterfly{
+  position:absolute;
+  width:34px; height:auto;
+  animation-name:flutter-flight;
+  animation-timing-function:ease-in-out;
+  animation-iteration-count:infinite;
+  will-change:transform;
+}
+.butterfly .wing{ transform-origin:50px 40px; animation:flap 0.55s ease-in-out infinite; }
+.butterfly .wing-right{ animation-delay:0.05s; }
+@keyframes flap{
+  0%,100%{ transform:scaleX(1); }
+  50%{ transform:scaleX(0.55); }
+}
+.butterfly.flight-a{ animation-name:flutter-flight-a; }
+.butterfly.flight-b{ animation-name:flutter-flight-b; }
+.butterfly.flight-c{ animation-name:flutter-flight-c; }
+@keyframes flutter-flight-a{
+  0%{ transform:translate(0,0) rotate(-4deg); }
+  25%{ transform:translate(7vw,-7vh) rotate(4deg); }
+  50%{ transform:translate(15vw,0vh) rotate(-3deg); }
+  75%{ transform:translate(8vw,8vh) rotate(5deg); }
+  100%{ transform:translate(0,0) rotate(-4deg); }
+}
+@keyframes flutter-flight-b{
+  0%{ transform:translate(0,0) rotate(3deg); }
+  30%{ transform:translate(-8vw,-5vh) rotate(-4deg); }
+  60%{ transform:translate(-14vw,4vh) rotate(3deg); }
+  100%{ transform:translate(0,0) rotate(3deg); }
+}
+@keyframes flutter-flight-c{
+  0%{ transform:translate(0,0) rotate(-2deg); }
+  20%{ transform:translate(4vw,-9vh) rotate(4deg); }
+  50%{ transform:translate(10vw,-3vh) rotate(-3deg); }
+  80%{ transform:translate(3vw,6vh) rotate(4deg); }
+  100%{ transform:translate(0,0) rotate(-2deg); }
+}
+
+/* ---------- per-section pop-in motifs ---------- */
+.pop-motif{
+  position:absolute;
+  width:clamp(46px,7vw,100px);
+  pointer-events:none;
+  z-index:1;
+}
+
 /* ================= NAV ================= */
 nav#site-nav{
   position:fixed; top:0; left:0; right:0; z-index:100;
-  display:flex; align-items:center; justify-content:space-between;
-  padding:18px clamp(20px,5vw,56px);
+  display:flex; align-items:center; justify-content:flex-end;
+  padding:14px clamp(20px,5vw,56px);
   background:rgba(243,233,211,0.72);
   backdrop-filter:blur(6px);
   border-bottom:1px solid rgba(173,138,78,0.35);
   transition:padding .3s ease, background .3s ease;
 }
-nav#site-nav.scrolled{ padding:10px clamp(20px,5vw,56px); background:rgba(243,233,211,0.92); }
-.nav-mark{
-  font-family:var(--serif-sc);
-  font-size:1.05rem;
-  letter-spacing:0.06em;
+nav#site-nav.scrolled{ padding:8px clamp(20px,5vw,56px); background:rgba(243,233,211,0.92); }
+.nav-ganesh{
+  position:absolute; left:50%; top:50%;
+  transform:translate(-50%,-50%);
+  width:clamp(34px,4vw,46px);
   color:var(--wine);
   text-decoration:none;
+  transition:width .3s ease, color .3s ease;
 }
+.nav-ganesh:hover, .nav-ganesh:focus-visible{ color:var(--deep-rose); }
+.nav-ganesh svg{ display:block; width:100%; height:auto; }
 .nav-links{ display:flex; gap:clamp(16px,3vw,36px); list-style:none; margin:0; padding:0; }
 .nav-links a{
   font-family:var(--body);
@@ -510,12 +569,57 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
   </g>
 </symbol>
 
+<!-- simple, respectful Ganesh silhouette motif (original line-art, not a reproduction of any specific idol/artwork) -->
+<symbol id="motif-ganesh" viewBox="0 0 100 120">
+  <g fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M50 8 C 34 8, 26 20, 28 32 C 20 30, 12 36, 14 46 C 8 48, 6 58, 12 64"/>
+    <path d="M50 8 C 66 8, 74 20, 72 32 C 80 30, 88 36, 86 46 C 92 48, 94 58, 88 64"/>
+    <path d="M28 46 C 24 62, 30 78, 50 82 C 70 78, 76 62, 72 46"/>
+    <path d="M50 82 C 46 92, 44 100, 50 100 C 56 100, 54 92, 50 82"/>
+    <circle cx="40" cy="56" r="3" fill="currentColor" stroke="none"/>
+    <circle cx="60" cy="56" r="3" fill="currentColor" stroke="none"/>
+    <path d="M46 66 C 48 70, 52 70, 54 66"/>
+    <path d="M50 84 C 34 92, 24 96, 20 108"/>
+    <path d="M18 108 C 22 112, 28 110, 30 104"/>
+    <path d="M32 40 C 24 38, 18 40, 16 44"/>
+    <path d="M68 40 C 76 38, 82 40, 84 44"/>
+    <path d="M50 100 C 50 106, 50 110, 50 114"/>
+  </g>
+</symbol>
+
+<!-- butterfly -->
+<symbol id="motif-butterfly" viewBox="0 0 100 80">
+  <g fill="currentColor" stroke="currentColor" stroke-width="0.6">
+    <path class="wing wing-left" d="M48 40 C 20 8, -6 18, 6 42 C -4 60, 22 70, 48 46 Z" opacity="0.85"/>
+    <path class="wing wing-right" d="M52 40 C 80 8, 106 18, 94 42 C 104 60, 78 70, 52 46 Z" opacity="0.85"/>
+    <path d="M50 32 C 47 44, 47 56, 50 64" fill="none" stroke-width="1.6"/>
+  </g>
+</symbol>
+
+<!-- small bird in flight -->
+<symbol id="motif-bird" viewBox="0 0 80 40">
+  <path d="M2 30 C 16 14, 26 14, 40 24 C 54 14, 64 14, 78 30 C 62 26, 52 30, 40 22 C 28 30, 18 26, 2 30 Z" fill="currentColor" opacity="0.85"/>
+</symbol>
+
+<!-- grazing deer silhouette -->
+<symbol id="motif-deer" viewBox="0 0 160 120">
+  <g fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round">
+    <path d="M30 90 C 26 70, 34 56, 50 54 C 56 44, 70 40, 78 48 C 92 44, 100 54, 96 64 C 108 66, 112 78, 104 86 L 100 100 L 92 100 L 90 86 L 60 86 L 58 100 L 50 100 L 48 88 C 38 92, 32 92, 30 90 Z"/>
+    <path d="M56 54 C 52 44, 54 34, 46 28" />
+    <path d="M46 28 C 40 24, 40 18, 46 16"/>
+    <path d="M46 28 C 50 22, 56 22, 58 28"/>
+    <circle cx="66" cy="58" r="1.6" fill="currentColor"/>
+  </g>
+</symbol>
+
 </defs>
 </svg>
 
+<div id="butterfly-field" aria-hidden="true"></div>
+
 <!-- ============ NAV ============ -->
 <nav id="site-nav" aria-label="Primary">
-  <a href="#hero" class="nav-mark">T &amp; S</a>
+  <a href="#hero" class="nav-ganesh" aria-label="Tina and Sahitya, home"><svg viewBox="0 0 100 120"><use href="#motif-ganesh"/></svg></a>
   <ul class="nav-links">
     <li><a href="#hero">Home</a></li>
     <li><a href="#story">Our Story</a></li>
@@ -563,6 +667,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 <section id="story" class="chapter paper">
   <div class="frame-outer" aria-hidden="true"></div>
   <div class="frame-inner" aria-hidden="true"></div>
+  <svg class="pop-motif pop" style="top:8%; right:6%; color:var(--forest);" viewBox="0 0 80 40" data-reveal-delay="150"><use href="#motif-bird"/></svg>
+  <svg class="pop-motif pop" style="bottom:6%; left:4%; width:clamp(70px,11vw,140px); color:var(--olive);" viewBox="0 0 160 120" data-reveal-delay="350"><use href="#motif-deer"/></svg>
   <span class="section-kicker reveal">A story painted in flowers</span>
   <h2 class="section-heading reveal">Our Story</h2>
   <div class="section-lede reveal">
@@ -582,6 +688,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 
 <!-- ============ EVENT 1 — WELCOME LUNCH ============ -->
 <section id="event-welcome" class="event">
+  <svg class="pop-motif pop" style="top:14%; left:6%; color:var(--olive);" viewBox="0 0 160 120" data-reveal-delay="200"><use href="#motif-deer"/></svg>
+  <svg class="pop-motif pop" style="top:20%; right:8%; width:clamp(40px,6vw,70px); color:var(--forest);" viewBox="0 0 80 40" data-reveal-delay="400"><use href="#motif-bird"/></svg>
   <svg class="event-motif top reveal" viewBox="0 0 260 160"><use href="#motif-branch"/></svg>
   <div class="event-frame">
     <div class="frame-outer" aria-hidden="true"></div>
@@ -600,6 +708,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 
 <!-- ============ EVENT 2 — VAN CLEEF'S FAIRYTALE ============ -->
 <section id="event-vancleef" class="event">
+  <svg class="pop-motif pop" style="top:16%; right:7%; color:var(--mauve);" viewBox="0 0 100 100" data-reveal-delay="200"><use href="#motif-jewel"/></svg>
+  <svg class="pop-motif pop" style="bottom:18%; left:6%; width:clamp(40px,6vw,70px); color:var(--dusty-pink);" viewBox="0 0 80 40" data-reveal-delay="400"><use href="#motif-bird"/></svg>
   <svg class="event-motif top reveal" viewBox="0 0 200 220"><use href="#motif-rose"/></svg>
   <div class="event-frame">
     <div class="frame-outer" aria-hidden="true"></div>
@@ -618,6 +728,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 
 <!-- ============ EVENT 3 — CARTIER'S LOVE AFFAIR ============ -->
 <section id="event-cartier" class="event">
+  <svg class="pop-motif pop" style="top:14%; left:8%; color:var(--gold-light);" viewBox="0 0 200 220" data-reveal-delay="200"><use href="#motif-rose"/></svg>
+  <svg class="pop-motif pop" style="bottom:16%; right:8%; width:clamp(40px,6vw,70px); color:var(--gold-light);" viewBox="0 0 100 100" data-reveal-delay="400"><use href="#motif-jewel"/></svg>
   <svg class="event-motif top reveal" viewBox="0 0 100 100"><use href="#motif-jewel"/></svg>
   <div class="event-frame">
     <div class="frame-outer" aria-hidden="true"></div>
@@ -636,6 +748,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 
 <!-- ============ EVENT 4 — HERMÈS: SUNNY CITRUS ============ -->
 <section id="event-hermes" class="event">
+  <svg class="pop-motif pop" style="top:16%; right:6%; color:var(--soft-lavender);" viewBox="0 0 200 220" data-reveal-delay="200"><use href="#motif-rose"/></svg>
+  <svg class="pop-motif pop" style="bottom:18%; left:7%; width:clamp(40px,6vw,70px); color:var(--plum);" viewBox="0 0 80 40" data-reveal-delay="400"><use href="#motif-bird"/></svg>
   <svg class="event-motif top reveal" viewBox="0 0 120 120"><use href="#motif-citrus"/></svg>
   <div class="event-frame">
     <div class="frame-outer" aria-hidden="true"></div>
@@ -654,6 +768,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 
 <!-- ============ EVENT 5 — THE SABYASACHI VARMALA ============ -->
 <section id="event-sabyasachi" class="event">
+  <svg class="pop-motif pop" style="top:12%; left:7%; color:var(--gold-light);" viewBox="0 0 120 120" data-reveal-delay="200"><use href="#motif-diya"/></svg>
+  <svg class="pop-motif pop" style="bottom:16%; right:7%; color:var(--gold-light);" viewBox="0 0 120 120" data-reveal-delay="400"><use href="#motif-diya"/></svg>
   <svg class="event-motif top reveal" viewBox="0 0 300 120"><use href="#motif-palace"/></svg>
   <div class="event-frame">
     <div class="frame-outer" aria-hidden="true"></div>
@@ -674,6 +790,8 @@ a:focus-visible, button:focus-visible{ outline:2px solid var(--wine); outline-of
 <section id="venue" class="chapter paper">
   <div class="frame-outer" aria-hidden="true"></div>
   <div class="frame-inner" aria-hidden="true"></div>
+  <svg class="pop-motif pop" style="top:10%; left:6%; color:var(--forest);" viewBox="0 0 80 40" data-reveal-delay="150"><use href="#motif-bird"/></svg>
+  <svg class="pop-motif pop" style="bottom:10%; right:6%; color:var(--deep-rose);" viewBox="0 0 200 220" data-reveal-delay="350"><use href="#motif-rose"/></svg>
   <span class="section-kicker reveal">Where our story continues</span>
   <h2 class="section-heading reveal">JMD Resort, Mandu</h2>
   <div class="venue-panel reveal">
@@ -746,8 +864,8 @@ navToggle.addEventListener('click', () => {
 scrim.addEventListener('click', closeMenu);
 mobilePanel.querySelectorAll('a').forEach(a => a.addEventListener('click', closeMenu));
 
-// reveal on scroll
-const revealEls = document.querySelectorAll('.reveal');
+// reveal on scroll (also covers .pop background motifs)
+const revealEls = document.querySelectorAll('.reveal, .pop');
 const io = new IntersectionObserver((entries) => {
   entries.forEach(entry => {
     if(entry.isIntersecting){
@@ -770,6 +888,33 @@ if(!prefersReduced){
       el.style.transform = (el.classList.contains('right') ? 'scaleX(-1) ' : '') + `translateY(${y*speed}px)`;
     });
   }, { passive:true });
+}
+
+// gently flying butterflies, scattered across the whole page
+if(!prefersReduced){
+  const field = document.getElementById('butterfly-field');
+  const butterflyColors = ['#9C3B4A','#AD8A4E','#8A9468','#9C6B7A','#C98E8E'];
+  const flights = ['flight-a','flight-b','flight-c'];
+  const positions = [
+    {top:'12%', left:'8%'}, {top:'22%', left:'82%'}, {top:'40%', left:'15%'},
+    {top:'55%', left:'70%'}, {top:'68%', left:'30%'}, {top:'80%', left:'60%'},
+    {top:'30%', left:'46%'}, {top:'90%', left:'12%'}
+  ];
+  positions.forEach((pos, i) => {
+    const wrap = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    wrap.classList.add('butterfly', flights[i % flights.length]);
+    wrap.setAttribute('viewBox','0 0 100 80');
+    wrap.style.top = pos.top;
+    wrap.style.left = pos.left;
+    wrap.style.color = butterflyColors[i % butterflyColors.length];
+    wrap.style.animationDuration = (7 + Math.random()*6) + 's';
+    wrap.style.animationDelay = (Math.random()*5) + 's';
+    wrap.innerHTML =
+      '<g><path class="wing wing-left" d="M48 40 C 20 8, -6 18, 6 42 C -4 60, 22 70, 48 46 Z" fill="currentColor" opacity="0.85"/>' +
+      '<path class="wing wing-right" d="M52 40 C 80 8, 106 18, 94 42 C 104 60, 78 70, 52 46 Z" fill="currentColor" opacity="0.85"/>' +
+      '<path d="M50 32 C 47 44, 47 56, 50 64" fill="none" stroke="currentColor" stroke-width="1.6"/></g>';
+    field.appendChild(wrap);
+  });
 }
 
 // falling petals in closing section

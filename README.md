@@ -8,6 +8,9 @@
 5. In the repo settings, enable GitHub Pages (Settings → Pages → Deploy from branch → main → /root).
 6. Your site will be live at `https://<username>.github.io/<repository-name>/`.
 
+## About the reference reel & image
+The Instagram reel and floral-border photo you shared are a watermarked commercial template from another studio ("nureh project"), so I didn't copy that artwork directly. Instead I took the general concept — ivory paper, botanical vine borders, animals like deer, butterflies drifting across the page, and elements popping in as you scroll — and built original line-art versions of it. If you own a license to that specific artwork, it's still possible to swap in the licensed image files in place of the SVG motifs.
+
 ## Notes
 - Everything is in one self-contained `index.html` (HTML/CSS/JS, no build step, no dependencies besides Google Fonts).
 - The Google Maps button links directly to the JMD Resort, Mandu location you provided.
