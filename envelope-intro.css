@@ -1,0 +1,214 @@
+/* ============================================================
+   Envelope intro overlay — Tina & Sahitya wedding site
+   Exact port of the envelope-opening animation from the
+   "wedding-invite" (Repo 1) build: same fonts, same images,
+   same colors, same timings, same easing curves.
+   Self-contained: unique "wed-envelope-" prefix so it can't
+   collide with the existing Lovable/Vite build's classes.
+   ============================================================ */
+
+#wed-envelope-overlay {
+  --font-script: "Great Vibes", cursive;
+  --font-serif: "Cormorant Garamond", serif;
+  --color-seal-gold: #f3e1b8;
+
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: #1a1612;
+  transition:
+    opacity 700ms cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 700ms linear;
+}
+
+#wed-envelope-overlay.is-gone {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.wed-envelope-sheet {
+  position: relative;
+  flex: none;
+  width: min(430px, 100%);
+  align-self: stretch;
+  background-color: #c5d1b6;
+  background-image: url("/images/envelope-paper.jpg");
+  background-size: cover;
+  background-position: center;
+  overflow: hidden;
+  perspective: 1600px;
+}
+
+.wed-envelope-sheet::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 12%, rgba(255, 255, 255, 0.22), transparent 42%),
+    linear-gradient(
+      180deg,
+      rgba(210, 222, 196, 0.18) 0%,
+      rgba(197, 209, 182, 0.28) 42%,
+      rgba(186, 200, 168, 0.5) 100%
+    );
+  pointer-events: none;
+}
+
+.wed-envelope-flap {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 46%;
+  background-image:
+    linear-gradient(180deg, rgba(232, 236, 220, 0.35), rgba(180, 196, 160, 0.12)),
+    url("/images/envelope-paper.jpg");
+  background-size: cover;
+  background-position: center top;
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
+  transform-origin: top center;
+  transform: rotateX(0deg);
+  transition: transform 1100ms cubic-bezier(0.62, 0, 0.3, 1);
+  filter: brightness(1.08);
+  z-index: 4;
+}
+
+#wed-envelope-overlay.is-open .wed-envelope-flap {
+  transform: rotateX(-158deg);
+}
+
+.wed-envelope-seal {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  width: clamp(92px, 28vw, 118px);
+  aspect-ratio: 1;
+  transform: translate(-50%, -50%) scale(1);
+  border: 0;
+  padding: 0;
+  background: transparent;
+  z-index: 6;
+  cursor: pointer;
+  animation: wed-seal-pulse 2.6s ease-in-out infinite;
+  transition:
+    transform 560ms cubic-bezier(0.22, 1, 0.36, 1) 180ms,
+    opacity 560ms ease 180ms;
+}
+
+@keyframes wed-seal-pulse {
+  0%,
+  100% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.045);
+  }
+}
+
+.wed-envelope-seal img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  filter: drop-shadow(0 10px 18px rgba(80, 16, 24, 0.45));
+}
+
+.wed-envelope-seal .wed-monogram {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-script);
+  font-size: clamp(1.2rem, 3.8vw, 1.5rem);
+  color: var(--color-seal-gold);
+  text-shadow: 0 1px 2px rgba(60, 10, 16, 0.55);
+  letter-spacing: 0.04em;
+  pointer-events: none;
+}
+
+#wed-envelope-overlay.is-open .wed-envelope-seal {
+  animation: none;
+  transform: translate(-50%, -50%) scale(0.12);
+  opacity: 0;
+}
+
+.wed-envelope-copy {
+  position: absolute;
+  left: 8%;
+  right: 8%;
+  top: 58%;
+  text-align: center;
+  z-index: 3;
+}
+
+.wed-envelope-invite {
+  font-family: var(--font-script);
+  font-size: clamp(2.4rem, 9vw, 3.15rem);
+  color: #2c241c;
+  margin: 0;
+  line-height: 1.1;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.wed-envelope-hint {
+  margin-top: 28px;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 0.95rem;
+  color: #5a4e42;
+  background: none;
+  border: 0;
+  padding: 10px 16px;
+  cursor: pointer;
+}
+
+.wed-envelope-skip {
+  position: absolute;
+  bottom: 28px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 7;
+  background: none;
+  border: 1px solid rgba(58, 46, 38, 0.28);
+  color: #3a2e26;
+  font-family: var(--font-serif);
+  font-size: 0.72rem;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  padding: 10px 18px;
+  min-height: 44px;
+  cursor: pointer;
+  transition:
+    opacity 400ms ease,
+    border-color 200ms ease;
+}
+
+.wed-envelope-skip:hover {
+  border-color: #3a2e26;
+}
+
+#wed-envelope-overlay.is-open .wed-envelope-skip,
+#wed-envelope-overlay.is-open .wed-envelope-hint {
+  opacity: 0;
+  pointer-events: none;
+}
+
+@media (min-width: 760px) {
+  .wed-envelope-sheet {
+    border-radius: 28px;
+    margin: 24px 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #wed-envelope-overlay,
+  #wed-envelope-overlay * {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+}

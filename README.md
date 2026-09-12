@@ -1,22 +1,95 @@
 # Tina & Sahitya — Wedding Website
 
-## Deploying to GitHub Pages
-1. Create a new repository (e.g. `tina-sahitya-wedding`).
-2. Put `index.html` in the repository root.
-3. Add your **`Planner Sahitya.pdf`** (the wardrobe planner) to the repository root — the "Open Wardrobe Planner" button links to it with a relative path, so the exact filename (including the space) matters.
-4. Optional: add `assets/favicon.svg` and `assets/og-image.jpg` if you want a custom tab icon and social-share image — the page references them but will simply fall back gracefully if they're missing.
-5. In the repo settings, enable GitHub Pages (Settings → Pages → Deploy from branch → main → /root).
-6. Your site will be live at `https://<username>.github.io/<repository-name>/`.
+## Important note on what changed technically
+Your uploaded zip was a **compiled/production build** (Vite + React +
+Tailwind + Supabase, bundled into one minified `assets/index-*.js`
+file). There was no editable source code in it — just the final
+output the browser runs. Minified bundles like that can't be safely
+hand-edited (no readable component structure, no separated text/CSS).
 
-## About the reference images
-Both images you've shared are photographs/renders of someone else's existing artwork rather than your own design files (the poppy border is a watermarked "nureh project" commercial template; the Ganesh emblem is a photographed stencil/stock image), so I didn't embed either file directly into the site. Instead:
-- The whole page now sits inside an original ornamental frame (gold rule → poppy-and-vine band → gold rule, with corner flourishes and small gold sprigs top/bottom) that stays in place as you scroll, in the same spirit as the border you sent.
-- The center nav logo is an original line-art Ganesh emblem (crown, trunk, flanking motifs) in the same traditional composition as your reference, not a trace of that specific photo.
+So instead of patching that bundle, I rebuilt the site as **plain
+HTML + CSS + JavaScript** — same wedding, same content, same colour
+theme and fonts, but now something you (or anyone) can open and edit
+directly, with every one of your requested changes applied. It no
+longer needs a build step, Node, or a backend.
 
-If you do hold the rights to either asset, they can be dropped in as real image files in place of these SVG recreations.
+## What's included
+- `index.html` — all page content
+- `css/style.css` — all styling (organized by section, commented)
+- `js/main.js` — sidebar nav, scroll-spy, photo carousel, music toggle
+- `envelope-intro.css` / `envelope-intro.js` — your original "tap to
+  open the invitation" envelope animation, kept as-is
+- `fonts/` — your original local fonts (Cormorant Garamond, Great
+  Vibes, Montserrat)
+- `hero-video.mp4`, `background-music.mp3`, `favicon.ico`,
+  `Planner Sahitya.pdf`, `og/` — carried over from your upload
 
-## Notes
-- Everything is in one self-contained `index.html` (HTML/CSS/JS, no build step, no dependencies besides Google Fonts).
-- The Google Maps button links directly to the JMD Resort, Mandu location you provided.
-- All decorative "miniature art" motifs (roses, botanical branches, palace silhouette, diyas, jewel and citrus motifs) are original fine-line SVG illustrations drawn for this site — they give you the ornamental-frame/illustrated-page structure the brief asked for. If you'd like richer, more painterly artwork (closer to hand-painted miniature illustration), the next step would be to commission or generate actual illustrated assets and drop them into an `/assets` folder in place of the SVG motifs — the CSS is already structured so that's a drop-in swap.
-- Respects reduced-motion preferences, is keyboard-navigable, and has been checked against the 375px–2560px+ range described in the brief.
+## Latest update (round 2)
+- **Countdown** — a new section right under the hero counts down
+  live to 26 January 2027 (days / hours / minutes / seconds).
+- **Photos are back to simple names**: `Photo1.jpg` … `Photo5.jpg` in
+  the root folder (no more HEIC/mixed-case naming). They now live in
+  a full-width, auto-scrolling "Glimpse of Us" marquee of its own,
+  right after Our Story (which is back to plain centred text).
+- **Background music** now starts the moment the envelope is tapped
+  open, instead of trying to autoplay before that.
+- **Butterflies** — reduced to 3 and redesigned with softer two-tone
+  gradient wings, a proper body/antennae, and wedding-palette colours.
+  Tapping one still bursts it into a small firework and it drifts
+  back in elsewhere after a while.
+- **The Celebrations** is now a vertical timeline — alternating
+  left/right on desktop, single column on phones, connected by a
+  gold line with a dot per event, inside a soft glass-effect panel.
+
+## Previous update
+- **Our Story** is now a two-column layout: the story text on one
+  side, a photo gallery on the other (stacks to one column on
+  phones). Drop `Photo0.jpg`, `Photo1.HEIC`, `Photo2.HEIC`,
+  `Photo3.JPG`, `Photo4.jpg` into the **root folder**. HEIC files
+  can't be shown directly by browsers — until you convert them to
+  JPG/PNG, that slide shows a note instead of a broken image. The
+  gallery cross-fades automatically and has tap-able dots.
+- **Wardrobe Planner** is now styled as its own "chapter of paper" —
+  a soft parchment background inside a nested gold-line frame with
+  corner flourishes, a row of colour swatches, and the button to the
+  PDF planner.
+- **Wedding Venue** now shows an icon, the dates, the address, an
+  embedded Google Map (no API key needed), and two buttons: "Open in
+  Maps" and "Add to Calendar" (downloads a two-day `.ics` file that
+  works with any calendar app).
+- **Butterflies** — five small butterflies now drift around the
+  whole site (`js/butterflies.js`). Tap one and it bursts into a
+  little firework of colour and flies off; it reappears elsewhere
+  after a little while. Automatically turned off for anyone with
+  "reduce motion" enabled on their device.
+
+## Your requested changes — where to find them
+1. **Our Story font + paragraph form** — `css/style.css`, look for
+   `OUR STORY`. Font is now Playfair Display (headings) + Lora (body).
+3. **Celebrations section**
+   - New font: Cinzel (headings) + Poppins (body).
+   - Each of the 5 event cards has its own colour (sage, blush, gold,
+     haldi-yellow, terracotta).
+   - Venue text removed from every card — venue now lives only in the
+     new **Venue** section.
+4. **Gifts section** — removed.
+5. **RSVP section** — removed (this also means the Supabase form
+   backend is no longer needed).
+6. **Travel & Accommodation / Where to Stay / Getting There** —
+   removed entirely.
+7. **Things to Do in Mandu** — kept, as its own section.
+8. **Questions/FAQ section** — removed.
+9. **Left-hand navigation bar** — see `.sidenav` in `index.html` /
+   `style.css`. On phones and tablets it becomes a hamburger-triggered
+   slide-out drawer (`.topbar`, `.hamburger`).
+10. **Responsive** — fluid type (`clamp()`), a mobile-first grid that
+    stacks on phones, a capped content width plus a font-size bump for
+    very large TVs (`min-width: 2200px`), and `100dvh` used instead of
+    `100vh` so mobile browser address bars don't cut off the hero.
+
+## To publish
+Upload the whole folder (keeping the same file/folder names) to your
+host exactly as-is — it's a static site, so any static host (Netlify,
+Vercel, GitHub Pages, or your current host) will work with no build
+step required. Just remember to add `Photo1.jpg` – `Photo5.jpg` to the
+root folder before you publish.
