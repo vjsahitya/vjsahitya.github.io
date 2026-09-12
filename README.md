@@ -8,8 +8,12 @@
 5. In the repo settings, enable GitHub Pages (Settings → Pages → Deploy from branch → main → /root).
 6. Your site will be live at `https://<username>.github.io/<repository-name>/`.
 
-## About the reference reel & image
-The Instagram reel and floral-border photo you shared are a watermarked commercial template from another studio ("nureh project"), so I didn't copy that artwork directly. Instead I took the general concept — ivory paper, botanical vine borders, animals like deer, butterflies drifting across the page, and elements popping in as you scroll — and built original line-art versions of it. If you own a license to that specific artwork, it's still possible to swap in the licensed image files in place of the SVG motifs.
+## About the reference images
+Both images you've shared are photographs/renders of someone else's existing artwork rather than your own design files (the poppy border is a watermarked "nureh project" commercial template; the Ganesh emblem is a photographed stencil/stock image), so I didn't embed either file directly into the site. Instead:
+- The whole page now sits inside an original ornamental frame (gold rule → poppy-and-vine band → gold rule, with corner flourishes and small gold sprigs top/bottom) that stays in place as you scroll, in the same spirit as the border you sent.
+- The center nav logo is an original line-art Ganesh emblem (crown, trunk, flanking motifs) in the same traditional composition as your reference, not a trace of that specific photo.
+
+If you do hold the rights to either asset, they can be dropped in as real image files in place of these SVG recreations.
 
 ## Notes
 - Everything is in one self-contained `index.html` (HTML/CSS/JS, no build step, no dependencies besides Google Fonts).
